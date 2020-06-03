@@ -6,7 +6,7 @@ let usuarioSchema = new Schema({
     name: { type: String, require: true },
     surname: { type: String, require: true },
     _id: { type: String, require: true },
-    profile: { type: String, require: true }
+    profile: { type: String, require: false }
 })
 
 module.exports = usuarioSchema
