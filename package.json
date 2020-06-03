@@ -1,0 +1,19 @@
+{
+  "name": "backend-ale-stars",
+  "version": "1.0.0",
+  "description": "ale-stars-app-backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EliRodrEs/Backend-ale-stars.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EliRodrEs/Backend-ale-stars/issues"
+  },
+  "homepage": "https://github.com/EliRodrEs/Backend-ale-stars#readme"
+}
