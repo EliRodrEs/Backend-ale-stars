@@ -17,14 +17,12 @@ app.use(cors());
 //Traemos las rutas de ficheros externos
 const usersRoute = require('./routes/users')
 const authRoute = require ('./routes/auth')
-
+const beersRoute = require ('./routes/beers')
 
 //enganchamos las rutas
 app.use(usersRoute)
 app.use(authRoute)
-
-
-
+app.use(beersRoute)
 
 app.get('/', (req, res) => {
   res.send('CERVEZAS READY')

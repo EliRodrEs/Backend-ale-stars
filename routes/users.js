@@ -62,6 +62,27 @@ router.route('/users/:id')
             res.status(404).json({ message: e.message })
         }
     })
+    .delete(async(req, res) => {
+        try {
+         let fireUser = firebase.auth().currentUser
+        fireUser.delete()
+
+            let searchId = req.params.id
+            let deleteUser = await Usuario.deleteOne({ _id: searchId })
+
+
+
+            if (deleteUser.deleteCount === 0) {
+                res.status(404).json({ 'message': 'El elemento que intentas eliminar no existe' })
+                return
+            }
+            console.info(deleteUser)
+            res.status(204).json({})
+        } catch (err) {
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
+        }
+
+    })
 
 
 module.exports = router
