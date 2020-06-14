@@ -9,6 +9,7 @@ let cervezaSchema = new Schema({
     style: { type: String, require: true },
     grad: { type: Number, require: true },
     description: { type: String, require: false },
+    favRating: {type: Number, require:true}
 })
 
 module.exports = cervezaSchema

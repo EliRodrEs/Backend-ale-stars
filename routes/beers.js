@@ -13,31 +13,23 @@ const { json } = require("express");
 app.use(json());
 app.use(bearerToken());
 
-
+/* ENDPOINTS DE CERVEZAS GLOBALES*/
 router.route('/beers')
-/*     .get(async(req, res) => {
-        let beerList = await Cerveza.find().exec();
-
+    .get(async(req, res) => {
+        const qType = req.query.type
+        const qStyle = req.query.style
+        const qGrad = req.query.grad
+        const qCountry = req.query.country
+        
+        const query = buildQuery(qType, qStyle, qGrad, qCountry)
+        let beerList = await Cerveza.find(query).sort({favRating: -1}).exec();
+        
         res.json(beerList);
-    })
- */
-.get(async(req, res) => {
-    const qType = req.query.type
-    const qStyle = req.query.style
-    const qGrad = req.query.grad
-    const qCountry = req.query.country
     
-    const query = buildQuery(qType, qStyle, qGrad, qCountry)
-    console.info("Query: ", query);
-    let beerList = await Cerveza.find(query).exec();
-res.json(beerList);
-})
-
-
-
-    .post(/* mustAuth() , */async(req, res) => { //SÓLO LOS PREMIUM
-      try {
-          let beerInDatabase = {
+    })
+/*     .post(mustAuth(),async(req, res) => { 
+        try {
+            let beerInDatabase = {
             name: req.body.name,
             country: req.body.country,
             brewery: req.body.brewery,
@@ -45,20 +37,19 @@ res.json(beerList);
             style: req.body.style,
             grad: req.body.grad,
             description: req.body.description
-          };
+            };
 
-          let newBeer = await new Cerveza(beerInDatabase).save()
-          let beerJSON = newBeer.toJSON()
+            let newBeer = await new Cerveza(beerInDatabase).save()
+            let beerJSON = newBeer.toJSON()
 
-          res.status(201).json(beerJSON);
+            res.status(201).json(beerJSON);
 
-      } catch (e) {
-          res.status(404).json({ message: e.message })
-          return
-      }
-  })
-
-
+        } catch (e) {
+            res.status(404).json({ message: e.message })
+            return
+        }
+    }) */
+/* ENDPOINTS DE CERVEZA SIMPLE*/
 router.route('/beers/:id')
   .get(async(req, res) => {
     try {
@@ -109,17 +100,59 @@ router.route('/beers/:id')
     } catch (err) {
         res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
     }
-})
+    })
+
+/* ENDPOINTS DE VOTOS*/
+router.route('/beers/:id/favs')
+    .put(/* mustAuth(), */ async(req, res) => {
+        try {
+            let searchId = req.params.id
+            let updateBeer = await Cerveza.findOneAndUpdate({ _id: searchId }, { $inc: { "favRating" : 1 } }, { new: true })
+
+            if (!updateBeer) {
+                res.status(404).json({ 'message': 'El elemento que intentas editar no existe' })
+                return
+            }
+            res.json(updateBeer)
+        } catch (err) {
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
+        }
+    })
+    .patch(/* mustAuth(), */ async(req, res) => {
+        try {
+            let searchId = req.params.id
+            
+            let updateBeer = await Cerveza.findOneAndUpdate({ _id: searchId }, { $inc: { "favRating" : -1 } }, { new: true })
+
+            if (!updateBeer) {
+                res.status(404).json({ 'message': 'El elemento que intentas editar no existe' })
+                return
+            }
+            res.json(updateBeer)
+        } catch (err) {
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
+        }
+    })
 
 
-
+/* FUNCIONES */
 function gradToRange(value) {
-    switch (value) {
-        case 1: return {$lt:6};
-        case 2: return {$gte:6, $lt:9};
-        case 3: return {$gte:9};
+/*     switch (value) {
+        case "1": return {$lt:6};
+        case "2": return {$gte:6, $lt:9};
+        case "3": return {$gte:9};
         default: {};
+    } */
+    if(value === "1"){
+        return {$lt:6}
     }
+    if(value === "2"){
+        return {$gte:6, $lt:9}
+    }
+    if(value === "3"){
+        return {$gte:9}
+    }
+    return {}
 }
 
 function buildQuery(type, style, grad, country) {

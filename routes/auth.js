@@ -25,7 +25,16 @@ router.route('/auth')
             res.status(500).json({ 'message': 'No ha sido posible iniciar sesión con el usuario. Inténtalo más tarde' })
             return
         }
-        res.json({ 'token': token })
+        res.json({ 
+          'token': token,
+          'email': usuarioMongo.email, 
+          'name': usuarioMongo.name,
+          'id': usuarioMongo.id,
+          'beerFav': usuarioMongo.beerFav,
+          'beerHate': usuarioMongo.beerHate,
+          'beerWish': usuarioMongo.beerWish,
+          'beerDone': usuarioMongo.beerDone
+      })
     } catch (e) {
         console.error(e)
         res.status(401).json({ message: e.message });

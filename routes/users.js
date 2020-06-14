@@ -83,7 +83,106 @@ router.route('/users/:id')
         }
 
     })
+    .put(async(req,res)=>{
+        let searchId = req.params.id
 
+        let updatedUser = await Usuario.findOneAndUpdate({_id: searchId}, req.body, {new: true}).exec()
 
+        if (!updatedUser) {
+        res.status(404).json({ 'message': 'El elemento que intentas editar no existe' })
+        return
+        }
+
+        res.json(updatedUser)
+    })
+
+/* ENDPOINTS DE ARRAYS PERSONALES */
+router.route("/users/:id/favs")
+    .patch(async(req, res) => {
+        try {
+        let searchId = req.params.id
+        const fav = req.query.fav;
+        const unfav = req.query.unfav;
+        let updateUser;
+        if(fav){
+            updateUser = await Usuario.findOneAndUpdate({_id: searchId }, {$push:{"beerFav": fav}})
+        } else {
+            updateUser = await Usuario.findOneAndUpdate({_id: searchId }, {$pull:{"beerFav": unfav}})
+        }
+        if (!updateUser) {
+            res.status(404).json({ 'message': 'El elemento que intentas editar no existe' })
+            return
+        }
+            res.json(updateUser)
+        } catch (err) {
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
+        }
+    })
+
+router.route("/users/:id/hates")
+    .patch(async(req, res) => {
+        try {
+        let searchId = req.params.id
+        const hate = req.query.hate;
+        const unhate = req.query.unhate;
+        let updateUser;
+        if(hate){
+            updateUser = await Usuario.findOneAndUpdate({_id: searchId }, {$push:{"beerHate": hate}})
+        } else {
+            updateUser = await Usuario.findOneAndUpdate({_id: searchId }, {$pull:{"beerHate": unhate}})
+        }
+        if (!updateUser) {
+            res.status(404).json({ 'message': 'El elemento que intentas editar no existe' })
+            return
+        }
+            res.json(updateUser)
+        } catch (err) {
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
+        }
+    })
+
+router.route("/users/:id/wish")
+    .patch(async(req, res) => {
+        try {
+        let searchId = req.params.id
+        const wish = req.query.wish;
+        const unwish = req.query.unwish;
+        let updateUser;
+        if(wish){
+            updateUser = await Usuario.findOneAndUpdate({_id: searchId }, {$push:{"beerWish": wish}})
+        } else {
+            updateUser = await Usuario.findOneAndUpdate({_id: searchId }, {$pull:{"beerWish": unwish}})
+        }
+        if (!updateUser) {
+            res.status(404).json({ 'message': 'El elemento que intentas editar no existe' })
+            return
+        }
+            res.json(updateUser)
+        } catch (err) {
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
+        }
+    })
+
+router.route("/users/:id/done")
+    .patch(async(req, res) => {
+        try {
+        let searchId = req.params.id
+        const done = req.query.done;
+        const undone = req.query.undone;
+        let updateUser;
+        if(done){
+            updateUser = await Usuario.findOneAndUpdate({_id: searchId }, {$push:{"beerDone": done}})
+        } else {
+            updateUser = await Usuario.findOneAndUpdate({_id: searchId }, {$pull:{"beerDone": undone}})
+        }
+        if (!updateUser) {
+            res.status(404).json({ 'message': 'El elemento que intentas editar no existe' })
+            return
+        }
+            res.json(updateUser)
+        } catch (err) {
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
+        }
+    })
 module.exports = router
     
