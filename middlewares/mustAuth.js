@@ -1,5 +1,7 @@
-const JWT_PASSWORD = "supersecretpassword";
+const JWT_PASSWORD = 'secret'
 const jwt = require("jsonwebtoken");
+
+
 
 function mustAuth() {
   return (req, res, next) => {

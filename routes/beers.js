@@ -104,7 +104,7 @@ router.route('/beers/:id')
 
 /* ENDPOINTS DE VOTOS*/
 router.route('/beers/:id/favs')
-    .put(/* mustAuth(), */ async(req, res) => {
+    .put(mustAuth(), async(req, res) => {
         try {
             let searchId = req.params.id
             let updateBeer = await Cerveza.findOneAndUpdate({ _id: searchId }, { $inc: { "favRating" : 1 } }, { new: true })
@@ -118,7 +118,7 @@ router.route('/beers/:id/favs')
             res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
         }
     })
-    .patch(/* mustAuth(), */ async(req, res) => {
+    .patch(mustAuth(), async(req, res) => {
         try {
             let searchId = req.params.id
             
@@ -137,12 +137,6 @@ router.route('/beers/:id/favs')
 
 /* FUNCIONES */
 function gradToRange(value) {
-/*     switch (value) {
-        case "1": return {$lt:6};
-        case "2": return {$gte:6, $lt:9};
-        case "3": return {$gte:9};
-        default: {};
-    } */
     if(value === "1"){
         return {$lt:6}
     }

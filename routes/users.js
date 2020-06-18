@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Usuario = require("../models/users");
+const Cerveza = require("../models/beers")
 const jwt = require("jsonwebtoken");
 const mustAuth = require("../middlewares/mustAuth");
 const bearerToken = require("express-bearer-token");
@@ -118,6 +119,17 @@ router.route("/users/:id/favs")
             res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
         }
     })
+    .get(async(req, res) => {
+        try {
+            let searchId = req.params.id
+            let userFavBeersID
+            userFavBeersID = await Usuario.findOne({_id: searchId}, ['beerFav'])
+            let userFavBeersComplete = await Cerveza.find({_id: {$in: userFavBeersID.beerFav}})
+            res.json(userFavBeersComplete)
+        } catch (err) {
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' + err})
+        }
+    })
 
 router.route("/users/:id/hates")
     .patch(async(req, res) => {
@@ -138,6 +150,17 @@ router.route("/users/:id/hates")
             res.json(updateUser)
         } catch (err) {
             res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
+        }
+    })
+    .get(async(req, res) => {
+        try {
+            let searchId = req.params.id
+            let userHatedBeersID
+            userHatedBeersID = await Usuario.findOne({_id: searchId}, ['beerHate'])
+            let userHatedBeersComplete = await Cerveza.find({_id: {$in: userHatedBeersID.beerHate}})
+            res.json(userHatedBeersComplete)
+        } catch (err) {
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' + err})
         }
     })
 
@@ -162,6 +185,17 @@ router.route("/users/:id/wish")
             res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
         }
     })
+    .get(async(req, res) => {
+        try {
+            let searchId = req.params.id
+            let userWishedBeersID
+            userWishedBeersID = await Usuario.findOne({_id: searchId}, ['beerWish'])
+            let userWishedBeersComplete = await Cerveza.find({_id: {$in: userWishedBeersID.beerWish}})
+            res.json(userWishedBeersComplete)
+        } catch (err) {
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' + err})
+        }
+    })
 
 router.route("/users/:id/done")
     .patch(async(req, res) => {
@@ -182,6 +216,17 @@ router.route("/users/:id/done")
             res.json(updateUser)
         } catch (err) {
             res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
+        }
+    })
+    .get(async(req, res) => {
+        try {
+            let searchId = req.params.id
+            let userDoneBeersID
+            userDoneBeersID = await Usuario.findOne({_id: searchId}, ['beerDone'])
+            let userDoneBeersComplete = await Cerveza.find({_id: {$in: userDoneBeersID.beerDone}})
+            res.json(userDoneBeersComplete)
+        } catch (err) {
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' + err})
         }
     })
 module.exports = router
