@@ -6,6 +6,8 @@ const cors = require("cors");
 const mongoose = require('mongoose');
 const config = require("./config");
 const firebase = require("firebase")
+const bearerToken = require("express-bearer-token");
+
 
 const app = express();
 
@@ -13,6 +15,7 @@ firebase.initializeApp(config.firebaseConfig)
 
 app.use(json());
 app.use(cors());
+app.use(bearerToken());
 
 //Traemos las rutas de ficheros externos
 const usersRoute = require('./routes/users')
@@ -31,7 +34,7 @@ app.get('/', (req, res) => {
 async function connectDatabase() {
   let db = mongoose.connection;
   try {
-      await mongoose.connect("mongodb+srv://EliRodres:alestars@ale-first-cluster-xpl7z.mongodb.net/test?retryWrites=true&w=majority", {
+      await mongoose.connect('mongodb+srv://EliRodres:alestars@ale-first-cluster-xpl7z.mongodb.net/test?retryWrites=true&w=majority', {
           useNewUrlParser: true,
           useUnifiedTopology: true,
       });

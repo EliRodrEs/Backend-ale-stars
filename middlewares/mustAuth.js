@@ -1,10 +1,12 @@
 const JWT_PASSWORD = 'secret'
 const jwt = require("jsonwebtoken");
+const bearerToken = require("express-bearer-token");
 
 
 
 function mustAuth() {
   return (req, res, next) => {
+    console.info(req.token)
     if (!req.token) {
       res.status(401).json({ message: "Necesitas un token JWT" });
       return;

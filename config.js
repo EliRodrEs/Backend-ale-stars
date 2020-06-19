@@ -15,9 +15,7 @@ const firebaseConfig = {
   messagingSenderId: "807249069911",
   appId: "1:807249069911:web:f53667889ffef53661a012",
   measurementId: "G-W7D48H3Q76"
-
-
-  /* apiKey: process.env.FIREBASE_API_KEY || envs.FIREBASE_API_KEY,
+/*   apiKey: process.env.FIREBASE_API_KEY || envs.FIREBASE_API_KEY,
   authDomain: process.env.AUTH_DOMAIN || envs.FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.FIREBASE_DATABASE_URL || envs.FIREBASE_DATABASE_URL,
   projectId: process.env.FIREBASE_PROJECT_ID || envs.FIREBASE_PROJECT_ID,
