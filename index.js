@@ -8,7 +8,7 @@ const config = require("./config");
 const firebase = require("firebase")
 const bearerToken = require("express-bearer-token");
 const nodeMailer = require("nodemailer") 
-
+//Para probar
 const app = express();
 
 firebase.initializeApp(config.firebaseConfig)
