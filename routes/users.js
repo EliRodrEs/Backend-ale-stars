@@ -63,32 +63,32 @@ router.route('/users/:id')
             res.status(404).json({ message: e.message })
         }
     })
-/*     .delete(async (req, res) => {
-        let searchId = req.params.id
-        //FIREBASE
-        let user = firebase.auth().currentUser
-        user.delete().then(function () {
-            console.log('Successfully deleted user');
-            //MONGO
-            Usuario.deleteOne({ _id: searchId })
-                .then((deleteUser) => {
-                    if (deleteUser.deleteCount === 0) {
-                        res.status(404).json({ 'message': 'El elemento que intentas eliminar no existe' })
-                        return
-                    }
-                    console.info(deleteUser)
-                    res.status(204).json({})
-                })
-                .catch((error) => {
-                    res.status(500).json({ error: error });
-                })
-        })
-            .catch(function (error) {
-                console.log('Error deleting user:', error);
-                res.status(500).json({ error: error })
+    /*     .delete(async (req, res) => {
+            let searchId = req.params.id
+            //FIREBASE
+            let user = firebase.auth().currentUser
+            user.delete().then(function () {
+                console.log('Successfully deleted user');
+                //MONGO
+                Usuario.deleteOne({ _id: searchId })
+                    .then((deleteUser) => {
+                        if (deleteUser.deleteCount === 0) {
+                            res.status(404).json({ 'message': 'El elemento que intentas eliminar no existe' })
+                            return
+                        }
+                        console.info(deleteUser)
+                        res.status(204).json({})
+                    })
+                    .catch((error) => {
+                        res.status(500).json({ error: error });
+                    })
             })
-        res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
-    }) */
+                .catch(function (error) {
+                    console.log('Error deleting user:', error);
+                    res.status(500).json({ error: error })
+                })
+            res.status(500).json({ 'message': 'No se ha podido resolver la solicitud' })
+        }) */
     .put(async (req, res) => {
         let searchId = req.params.id
 
