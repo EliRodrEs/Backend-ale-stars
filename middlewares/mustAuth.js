@@ -1,4 +1,4 @@
-const JWT_PASSWORD = 'secret'
+const config = require('../config')
 const jwt = require("jsonwebtoken");
 const bearerToken = require("express-bearer-token");
 
@@ -13,7 +13,7 @@ function mustAuth() {
     }
     try {
       let token = req.token;
-      let user = jwt.verify(token, JWT_PASSWORD);
+      let user = jwt.verify(token, config.jwtKey);
       req.user = user;
     } catch (err) {
       res.status(401).json({ message: "Token inválido"});

@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const config = require("./config");
 const firebase = require("firebase")
 const bearerToken = require("express-bearer-token");
-
+const nodeMailer = require("nodemailer") 
 
 const app = express();
 
@@ -21,11 +21,13 @@ app.use(bearerToken());
 const usersRoute = require('./routes/users')
 const authRoute = require ('./routes/auth')
 const beersRoute = require ('./routes/beers')
+const emailsRoute = require ('./routes/emails')
 
 //enganchamos las rutas
 app.use(usersRoute)
 app.use(authRoute)
 app.use(beersRoute)
+app.use(emailsRoute)
 
 app.get('/', (req, res) => {
   res.send('CERVEZAS READY')
@@ -34,7 +36,7 @@ app.get('/', (req, res) => {
 async function connectDatabase() {
   let db = mongoose.connection;
   try {
-      await mongoose.connect('mongodb+srv://EliRodres:alestars@ale-first-cluster-xpl7z.mongodb.net/test?retryWrites=true&w=majority', {
+      await mongoose.connect(config.mongoConfig, {
           useNewUrlParser: true,
           useUnifiedTopology: true,
       });
